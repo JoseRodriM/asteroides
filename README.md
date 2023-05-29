@@ -7,3 +7,11 @@ Cree una bbdd de usuarios para que un usuario se pueda registrar y/o iniciar ses
 -En la parte front: Es una SPA, no uso rutas porque es muy pequeño el proyecto. Cuando la aplicación carga te trae la lista de asteroides que me trae por defecto en la url que me facilitaron, tienes la opción de registrarte si no tienes cuenta o iniciar sesión si ya posees una, una vez iniciada sesión puedes guardar en favoritos y si ya tienes guardados en favoritos alguno de los asteroides que aparecen por defecto se te marcará automaticamente. Puedes guardar tantos como quieras. Puedes elegir cómo los quieres ordenar y las fechas que buscarás y presionar el botón de buscar. También podrás ver los detalles de cada asteroide presionando en el botón "show details", el cual abrirá un modal mostrando los detalles del asteroide seleccionado.
 
 
+Con respecto a la consulta SQL solicitada, acá está la respuesta:
+
+SELECT U.NAME, U.EMAIL, SUM(O.QUANTITY * P.PRICE) AS TOTAL
+FROM USERS AS U, PRODUCTS AS P, ORDERS AS O
+WHERE U.ID = O.USER_ID AND P.ID = O.PRODUCT_ID AND P.CATEGORY = "ELECTRONICS"
+GROUP BY U.ID
+HAVING COUNT(DISTINCT O.ID) >= 3 AND TOTAL > 1000
+ORDER BY TOTAL DESC;
